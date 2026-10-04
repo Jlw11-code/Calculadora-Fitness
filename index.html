@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light" data-accent="green" data-style="clean">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VitaPanel · Dashboard fitness</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="bgLayer"></div>
+<div id="confetti"></div>
+
+<header class="banner">
+  <div class="avatar" id="avatar">U</div>
+  <div class="who">
+    <h1 id="bannerName">Usuario</h1>
+    <p id="bannerSub">Modo individual</p>
+  </div>
+  <div class="clock" id="clock"><span id="time"></span><small id="date"></small></div>
+</header>
+
+<main class="grid">
+
+  <!-- MÓDULO 1 -->
+  <section class="card" id="m1">
+    <h2>1 · Calorías diarias (TDEE)</h2>
+    <div class="row">
+      <label>Sexo<select id="sex"><option value="m">Hombre</option><option value="f">Mujer</option></select></label>
+      <label>Edad<input id="age" type="number" min="12" max="100" placeholder="años"></label>
+    </div>
+    <div class="row">
+      <label>Peso (kg)<input id="weight" type="number" min="25" max="300" step="0.1"></label>
+      <label>Altura (cm)<input id="height" type="number" min="100" max="250"></label>
+    </div>
+    <label>Actividad
+      <select id="activity">
+        <option value="1.2">Sedentario</option>
+        <option value="1.375">Ligera (1-3 días/sem)</option>
+        <option value="1.55" selected>Moderada (3-5 días/sem)</option>
+        <option value="1.725">Intensa (6-7 días/sem)</option>
+        <option value="1.9">Atleta (doble sesión)</option>
+      </select>
+    </label>
+    <label>Objetivo
+      <select id="goalCal">
+        <option value="-500">Perder grasa (-500)</option>
+        <option value="0" selected>Mantener</option>
+        <option value="400">Ganar masa (+400)</option>
+      </select>
+    </label>
+    <button class="btn" id="calcTdee">Calcular</button>
+    <div class="result" id="tdeeOut">Completa los datos y pulsa Calcular.</div>
+
+    <h3>Escáner de comidas</h3>
+    <div class="row">
+      <label>Alimento<input id="foodName" list="foodList" placeholder="Busca: arroz, pollo…"></label>
+      <label>Gramos<input id="foodG" type="number" min="1" value="100"></label>
+    </div>
+    <datalist id="foodList"></datalist>
+    <button class="btn ghost" id="addFood">Escanear y registrar</button>
+    <ul class="list" id="foodLog"></ul>
+    <div class="bar"><i id="kcalBar"></i></div>
+    <p class="muted" id="kcalTxt">0 kcal consumidas</p>
+  </section>
+
+  <!-- MÓDULO 2 -->
+  <section class="card" id="m2">
+    <h2>2 · Hidratación (meta 2 L)</h2>
+    <div class="water"><div class="fill" id="waterFill"></div><b id="waterTxt">0 ml</b></div>
+    <p class="muted" id="waterMsg">¡Empieza con tu primer vaso!</p>
+    <div class="row">
+      <button class="btn" id="addGlass">+ Añadir vaso (250 ml)</button>
+      <button class="btn ghost" id="remGlass">Quitar</button>
+    </div>
+    <div class="glasses" id="glasses"></div>
+    <div class="badge" id="badge" hidden>🏆 ¡Meta diaria lograda!</div>
+    <button class="btn ghost" id="resetWater">Reiniciar día</button>
+  </section>
+
+  <!-- MÓDULO 3 -->
+  <section class="card wide" id="m3">
+    <h2>3 · IMC, planes y evolución</h2>
+    <div class="row">
+      <label>Peso (kg)<input id="bw" type="number" step="0.1" min="25" max="300"></label>
+      <label>Altura (cm)<input id="bh" type="number" min="100" max="250"></label>
+      <label>Objetivo
+        <select id="goal">
+          <option value="masa">Aumentar peso / masa</option>
+          <option value="definicion">Definición</option>
+          <option value="peso">Perder peso</option>
+          <option value="postura">Corregir postura</option>
+          <option value="explosividad">Explosividad</option>
+          <option value="atletismo">Mejorar atletismo</option>
+        </select>
+      </label>
+    </div>
+    <button class="btn" id="calcBmi">Evaluar IMC</button>
+    <div class="result" id="bmiOut">Ingresa peso y altura.</div>
+    <div class="cols">
+      <div><h3>Dieta</h3><ul class="list" id="dietList"></ul></div>
+      <div><h3>Rutina semanal</h3><ul class="list" id="routineList"></ul></div>
+    </div>
+
+    <h3>Evolución física</h3>
+    <div class="row">
+      <label>Foto de tu cuerpo<input id="photoIn" type="file" accept="image/*"></label>
+      <label>Peso ese día (kg)<input id="photoW" type="number" step="0.1"></label>
+    </div>
+    <button class="btn ghost" id="addPhoto">Guardar foto</button>
+    <div class="gallery" id="gallery"></div>
+    <p class="muted" id="evoTxt"></p>
+  </section>
+
+  <!-- MÓDULO 4 -->
+  <section class="card" id="m4">
+    <h2>4 · Apariencia y usuarios</h2>
+    <label>Tema
+      <select id="theme"><option value="light">Claro (diurno)</option><option value="dark">Oscuro (nocturno)</option></select>
+    </label>
+    <label>Estilo
+      <select id="style"><option value="clean">Clean</option><option value="glass">Aesthetic (cristal)</option><option value="modern">Moderno (bordes marcados)</option></select>
+    </label>
+    <label>Color de acento</label>
+    <div class="swatches" id="swatches"></div>
+    <label>Fondo personalizado<input id="bgIn" type="file" accept="image/*"></label>
+    <button class="btn ghost" id="bgClear">Quitar fondo</button>
+    <label class="check"><input type="checkbox" id="showClock" checked> Mostrar reloj</label>
+    <label class="check"><input type="checkbox" id="showDate" checked> Mostrar fecha</label>
+
+    <h3>Usuarios</h3>
+    <label>Modo
+      <select id="mode"><option value="individual">Individual</option><option value="entrenador">Entrenador (grupo)</option></select>
+    </label>
+    <div id="userBox">
+      <label>Usuario activo<select id="userSel"></select></label>
+      <div class="row">
+        <input id="newUser" placeholder="Nombre del nuevo usuario">
+        <button class="btn" id="addUser">Añadir</button>
+      </div>
+      <button class="btn ghost danger" id="delUser">Eliminar activo</button>
+    </div>
+    <label id="renameBox">Nombre<input id="rename" placeholder="Tu nombre"></label>
+  </section>
+
+</main>
+<script src="script.js"></script>
+</body>
+</html>
